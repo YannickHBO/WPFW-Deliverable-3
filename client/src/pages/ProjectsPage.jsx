@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { formatDate, getProjects } from '../api/portfolioApi.js';
+import { formatMonthYear, getProjects } from '../api/portfolioApi.js';
+import TagList from '../components/TagList.jsx';
 import useApiData from '../hooks/useApiData.js';
 import useDocumentTitle from '../hooks/useDocumentTitle.js';
 
@@ -11,7 +12,9 @@ export default function ProjectsPage() {
   const loadFailed = status === 'error';
   const normalizedQuery = query.trim().toLocaleLowerCase();
   const visibleProjects = (projects ?? []).filter((project) =>
-    `${project.category} ${project.title} ${project.description}`.toLocaleLowerCase().includes(normalizedQuery)
+    `${project.category} ${project.title} ${project.description} ${(project.tags ?? []).join(' ')}`
+      .toLocaleLowerCase()
+      .includes(normalizedQuery)
   );
 
   let statusMessage = '';
@@ -48,19 +51,30 @@ export default function ProjectsPage() {
 
       <div className="card-grid" id="project-list">
         {visibleProjects.map((project) => (
-          <article className="content-card" key={project.id}>
-            <p className="card-date">
-              {project.category} · <time dateTime={project.date}>{formatDate(project.date)}</time>
+          <article className="content-card project-card" key={project.id}>
+            <header className="project-card__header">
+              <h2>{project.title}</h2>
+              <div className="project-card__badges">
+                {project.inProgress && <span className="badge badge--progress">in progress</span>}
+                {/* Closed source unless the project has a public GitHub link. */}
+                {!project.gitHubUrl && <span className="badge badge--closed">closed source</span>}
+                {project.gitHubUrl && (
+                  <a className="badge badge--link" href={project.gitHubUrl} target="_blank" rel="noreferrer">
+                    open source <span aria-hidden="true">↗</span>
+                    <span className="is-visually-hidden">: view on GitHub (opens in a new tab)</span>
+                  </a>
+                )}
+              </div>
+            </header>
+
+            <p className="project-card__subtitle">
+              {project.category} · {project.inProgress ? 'started ' : ''}
+              <time dateTime={project.date.slice(0, 7)}>{formatMonthYear(project.date)}</time>
             </p>
-            <h2>{project.title}</h2>
-            <p>{project.description}</p>
-            {project.gitHubUrl && (
-              <p className="card-link">
-                <a href={project.gitHubUrl} target="_blank" rel="noreferrer">
-                  View on GitHub<span className="is-visually-hidden"> (opens in a new tab)</span>
-                </a>
-              </p>
-            )}
+
+            <p className="project-card__description">{project.description}</p>
+
+            <TagList tags={project.tags} />
           </article>
         ))}
       </div>

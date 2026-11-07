@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import useDocumentTitle from '../hooks/useDocumentTitle.js';
 import profilePicture from '../profile-placeholder.png';
 
@@ -11,10 +12,15 @@ export default function WhoamiPage() {
         <div className="profile-copy">
           <h1>Who am I?</h1>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam dolor massa, mollis ut volutpat sed,
-            accumsan in justo. Cras vestibulum ex vel velit lacinia lacinia. Nunc sagittis, felis ut tristique sodales,
-            quam nibh imperdiet magna, ut mollis mi sem nec lorem. Etiam erat sapien, porta at neque vel, aliquam
-            vestibulum enim.
+            I'm Yannick, a programmer with a strong interest in cybersecurity solutions, data analysis and
+            visualization: building software that keeps systems safe and turns raw data into insights people can
+            actually read.
+          </p>
+          <p>
+            Away from the keyboard you'll usually find me outside, because I'm an avid hiker and runner. This year I
+            climbed Mount Fuji via the Sengen trail before the season had opened, a 15-hour, 42-kilometre day through
+            the snow, and I ran the very first edition of The Hague Marathon in 3:35:59. You can read about both, with
+            photos, on my <Link to="/blog" className="text-link">blog</Link>.
           </p>
         </div>
       </div>

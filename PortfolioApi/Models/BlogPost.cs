@@ -6,5 +6,8 @@ public class BlogPost
     public int Id { get; set; }
     public string Title { get; set; } = string.Empty;
     public string Content { get; set; } = string.Empty;
-    public DateOnly PublishedDate { get; set; }
+    public DateTime PublishedDate { get; set; }
+
+    /// <summary>Optional photos shown with the post (one-to-many).</summary>
+    public List<BlogPostImage> Images { get; set; } = [];
 }

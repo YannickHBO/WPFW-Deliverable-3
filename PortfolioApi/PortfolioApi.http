@@ -59,7 +59,7 @@ Content-Type: application/json
 {
   "title": "Bewijs Blogpost",
   "content": "Aangemaakt via de .http-file",
-  "publishedDate": "2026-11-07"
+  "publishedDate": "2026-11-07T14:30:00"
 }
 
 ### Blogpost wijzigen
@@ -69,7 +69,7 @@ Content-Type: application/json
 {
   "title": "Bewijs Blogpost (gewijzigd)",
   "content": "Gewijzigd via PUT",
-  "publishedDate": "2026-11-08"
+  "publishedDate": "2026-11-08T09:15:00"
 }
 
 ### Blogpost verwijderen
