@@ -26,24 +26,8 @@ export default function Layout() {
 
   return (
     <>
-      <Link to="/" className="brand-logo" aria-label="WPFWDesigns, go to the home page">
-        {/* Logo mark: a terminal console, black with a white border and a ">_" prompt. */}
-        <svg className="brand-logo__mark" viewBox="0 0 40 40" aria-hidden="true" focusable="false">
-          <rect x="1.25" y="1.25" width="37.5" height="37.5" rx="9" fill="#0b0f14" stroke="#ffffff" strokeWidth="2.5" />
-          <path
-            d="M11 13 L18 20 L11 27"
-            fill="none"
-            stroke="#ffffff"
-            strokeWidth="3.2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <rect className="brand-logo__cursor" x="21" y="25" width="9" height="3.2" rx="1.6" fill="#ffffff" />
-        </svg>
-        <span className="brand-logo__text" aria-hidden="true">
-          <span className="brand-logo__name">WPFW</span>
-          <span className="brand-logo__sub">designs</span>
-        </span>
+      <Link to="/" className="brand-tag" aria-label="Go to the home page">
+        <i>WPFWDesigns</i>
       </Link>
 
       <NavMenu />

@@ -11,7 +11,6 @@ public class BlogPostService(PortfolioDbContext db) : IBlogPostService
     {
         var posts = await db.BlogPosts
             .AsNoTracking()
-            .Include(b => b.Images)
             .OrderByDescending(b => b.PublishedDate)
             .ToListAsync();
 
@@ -20,10 +19,7 @@ public class BlogPostService(PortfolioDbContext db) : IBlogPostService
 
     public async Task<BlogPostDto?> GetByIdAsync(int id)
     {
-        var post = await db.BlogPosts
-            .AsNoTracking()
-            .Include(b => b.Images)
-            .FirstOrDefaultAsync(b => b.Id == id);
+        var post = await db.BlogPosts.AsNoTracking().FirstOrDefaultAsync(b => b.Id == id);
         return post?.ToDto();
     }
 
@@ -37,10 +33,7 @@ public class BlogPostService(PortfolioDbContext db) : IBlogPostService
 
     public async Task<BlogPostDto?> UpdateAsync(int id, UpdateBlogPostDto dto)
     {
-        // Load the existing images too: PUT replaces them with the ones in the request.
-        var post = await db.BlogPosts
-            .Include(b => b.Images)
-            .FirstOrDefaultAsync(b => b.Id == id);
+        var post = await db.BlogPosts.FindAsync(id);
         if (post is null) return null;
 
         dto.ApplyTo(post);

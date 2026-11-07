@@ -11,26 +11,15 @@ async function getJson(path, signal) {
 /** @returns {Promise<Array<{id:number,title:string,description:string,category:string,gitHubUrl:string|null,date:string}>>} */
 export const getProjects = (signal) => getJson('/api/projects', signal);
 
-/** @returns {Promise<Array<{id:number,title:string,content:string,publishedDate:string,images:Array<{url:string,alt:string}>}>>} publishedDate e.g. "2026-09-14T11:28:13" */
+/** @returns {Promise<Array<{id:number,title:string,content:string,publishedDate:string}>>} */
 export const getBlogPosts = (signal) => getJson('/api/blogposts', signal);
 
-/** Formats an API date ("2026-06-14", or the date part of "2026-06-14T10:30:00") as "June 14, 2026" without timezone shifts. */
+/** Formats an API date ("2026-06-14") as "June 14, 2026" without timezone shifts. */
 export function formatDate(isoDate) {
-  const [year, month, day] = isoDate.slice(0, 10).split('-').map(Number);
+  const [year, month, day] = isoDate.split('-').map(Number);
   return new Date(year, month - 1, day).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
   });
-}
-
-/** Formats an API date ("2024-12-01") as "December 2024". Used for projects, whose dates are month precision. */
-export function formatMonthYear(isoDate) {
-  const [year, month] = isoDate.slice(0, 7).split('-').map(Number);
-  return new Date(year, month - 1, 1).toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
-}
-
-/** Formats "2026-09-14T11:28:13" as "11:28" (24-hour clock), exactly as stored. */
-export function formatTime(isoDateTime) {
-  return isoDateTime.slice(11, 16);
 }

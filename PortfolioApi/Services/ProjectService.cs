@@ -11,9 +11,7 @@ public class ProjectService(PortfolioDbContext db) : IProjectService
     {
         var projects = await db.Projects
             .AsNoTracking()
-            // Projects I'm still working on first, then the rest from newest to oldest.
-            .OrderByDescending(p => p.InProgress)
-            .ThenByDescending(p => p.Date)
+            .OrderByDescending(p => p.Date)
             .ToListAsync();
 
         return projects.Select(p => p.ToDto()).ToList();

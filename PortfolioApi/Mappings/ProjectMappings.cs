@@ -7,8 +7,7 @@ namespace PortfolioApi.Mappings;
 public static class ProjectMappings
 {
     public static ProjectDto ToDto(this Project project) =>
-        new(project.Id, project.Title, project.Description, project.Category, project.GitHubUrl, project.Date,
-            project.InProgress, project.Tags.ToList());
+        new(project.Id, project.Title, project.Description, project.Category, project.GitHubUrl, project.Date);
 
     public static Project ToEntity(this CreateProjectDto dto) => new()
     {
@@ -16,9 +15,7 @@ public static class ProjectMappings
         Description = dto.Description,
         Category = dto.Category,
         GitHubUrl = dto.GitHubUrl,
-        Date = dto.Date,
-        InProgress = dto.InProgress,
-        Tags = CleanTags(dto.Tags)
+        Date = dto.Date
     };
 
     public static void ApplyTo(this UpdateProjectDto dto, Project project)
@@ -28,10 +25,5 @@ public static class ProjectMappings
         project.Category = dto.Category;
         project.GitHubUrl = dto.GitHubUrl;
         project.Date = dto.Date;
-        project.InProgress = dto.InProgress;
-        project.Tags = CleanTags(dto.Tags);
     }
-
-    private static List<string> CleanTags(IEnumerable<string>? tags) =>
-        (tags ?? []).Select(tag => tag.Trim()).ToList();
 }

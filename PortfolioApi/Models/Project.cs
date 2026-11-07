@@ -9,10 +9,4 @@ public class Project
     public string Category { get; set; } = string.Empty;
     public string? GitHubUrl { get; set; }
     public DateOnly Date { get; set; }
-
-    /// <summary>True while I'm still working on the project.</summary>
-    public bool InProgress { get; set; }
-
-    /// <summary>Skills or programming languages used (max 3). Stored by EF Core as a JSON array column.</summary>
-    public List<string> Tags { get; set; } = [];
 }

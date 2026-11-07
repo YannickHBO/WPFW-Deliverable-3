@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 const storageKey = 'wpfw-weather-theme-mode';
-const location = { name: 'The Hague', latitude: 52.0705, longitude: 4.3007 };
+const location = { name: 'Amsterdam', latitude: 52.3676, longitude: 4.9041 };
 const weatherDescriptions = {
   0: 'Clear sky', 1: 'Mainly clear', 2: 'Partly cloudy', 3: 'Overcast',
   45: 'Fog', 48: 'Rime fog',
@@ -30,11 +30,10 @@ function readSavedMode() {
   }
 }
 
-/** Theme switcher: "auto" turns dark mode on when the current weather code (see `location`) is 3 or higher. */
+/** Theme switcher: "auto" turns dark mode on when the current Amsterdam weather code is 3 or higher. */
 export default function WeatherTheme() {
   const [mode, setMode] = useState(readSavedMode);
-  // status: 'loading' | 'success' | 'error'
-  const [weather, setWeather] = useState({ text: 'Loading weather...', theme: 'light', status: 'loading' });
+  const [weather, setWeather] = useState({ text: 'Loading weather...', theme: 'light' });
 
   useEffect(() => {
     const controller = new AbortController();
@@ -56,14 +55,11 @@ export default function WeatherTheme() {
         if (typeof code !== 'number') throw new Error('Weather data is unavailable');
         setWeather({
           text: weatherDescriptions[code] ?? 'Current conditions',
-          theme: code >= 3 ? 'dark' : 'light',
-          status: 'success'
+          theme: code >= 3 ? 'dark' : 'light'
         });
       })
       .catch((error) => {
-        if (error.name !== 'AbortError') {
-          setWeather({ text: 'Weather unavailable', theme: 'light', status: 'error' });
-        }
+        if (error.name !== 'AbortError') setWeather({ text: 'Weather unavailable', theme: 'light' });
       });
 
     return () => controller.abort();
@@ -83,18 +79,6 @@ export default function WeatherTheme() {
     }
   };
 
-  // Tells the visitor what the current result of the weather rule is.
-  let currentEffect;
-  if (mode !== 'auto') {
-    currentEffect = `Auto is off: ${mode} mode is always on. Choose Auto to let the weather decide.`;
-  } else if (weather.status === 'loading') {
-    currentEffect = 'Now: checking the weather...';
-  } else if (weather.status === 'error') {
-    currentEffect = 'Now: weather unavailable, so light mode is used.';
-  } else {
-    currentEffect = `Now: ${weather.text.toLocaleLowerCase()} → ${isDark ? 'dark' : 'light'} mode.`;
-  }
-
   return (
     <div className="weather-theme">
       <p className="weather-theme__status" role="status" aria-live="polite">
@@ -108,20 +92,12 @@ export default function WeatherTheme() {
             className={`weather-theme__button${icon ? ' weather-theme__icon-button' : ''}`}
             aria-pressed={mode === value}
             aria-label={icon ? label : undefined}
-            aria-describedby={value === 'auto' ? 'weather-theme-hint' : undefined}
             title={icon ? label : undefined}
             onClick={() => selectMode(value)}
           >
             {icon ? <span aria-hidden="true">{icon}</span> : label}
           </button>
         ))}
-      </div>
-      <div className="weather-theme__hint" id="weather-theme-hint">
-        <p>
-          <strong>Auto</strong> uses the live weather in {location.name}: Clear weather enables light
-          mode; Bad weather enables dark mode.
-        </p>
-        <p aria-live="polite">{currentEffect}</p>
       </div>
     </div>
   );
