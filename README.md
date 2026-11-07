@@ -1,21 +1,63 @@
-# WPFWDesigns – Portfoliosite + Portfolio API
+## Techniek
 
-Deze repository bevat twee onderdelen:
+- **.NET-versie:** .NET 10 (`net10.0`, getest met SDK 10.0.403)
+- **Packages:** Entity Framework Core 10 (`Microsoft.EntityFrameworkCore.SqlServer`, `.Design`), Swashbuckle.AspNetCore 10 (Swagger UI)
+- **Database:** SQL Server via EF Core met een eigen `PortfolioDbContext`
 
-| Map | Wat |
-|---|---|
-| `client/` | De portfoliosite als React-app (Vite + React Router) |
-| `PortfolioApi/` | ASP.NET Core Web API (.NET 10) met CRUD voor projecten en blogposts |
+## API-stijl en codestructuur
 
-## Snel starten (twee terminals)
+Ik heb gekozen voor **controllers** (`[ApiController]`), gelaagd opgebouwd: Controllers → Services → Data.
+De controllers regelen alleen HTTP (routes en statuscodes), de services bevatten de logica en de
+DTO-mapping, en alleen de data-laag praat met EF Core. Er gaan nergens EF-entiteiten de API in of uit;
+de API wisselt alleen DTO's uit.
+
+```
+PortfolioApi/
+├── Controllers/   ProjectsController, BlogPostsController (HTTP)
+├── Services/      IProjectService/ProjectService, IBlogPostService/BlogPostService (logica)
+├── Mappings/      Entity <-> DTO conversie (ToDto, ToEntity, ApplyTo)
+├── Dtos/          Invoer- en uitvoer-DTO's met validatie
+├── Models/        EF Core-entiteiten: Project, BlogPost, BlogPostImage
+├── Data/          PortfolioDbContext (incl. seed data)
+├── Migrations/    EF Core-migraties
+└── Program.cs     Dependency injection (DbContext, services), Swagger, pipeline
+```
+
+## SQL Server configureren
+
+De connectionstring staat in `PortfolioApi/appsettings.json` onder `ConnectionStrings:PortfolioDb`:
+
+```json
+"PortfolioDb": "Server=.\\SQLEXPRESS;Database=PortfolioDb;Trusted_Connection=True;TrustServerCertificate=True"
+```
+
+- Standaard wordt een lokale **SQL Server Express**-instantie (`.\SQLEXPRESS`) gebruikt met Windows-authenticatie.
+- Gebruik je **LocalDB**, vervang dan `Server=.\\SQLEXPRESS` door `Server=(localdb)\\MSSQLLocalDB`.
+- Gebruik je een andere server of SQL-login, pas dan `Server` aan en vervang `Trusted_Connection=True`
+  door `User Id=...;Password=...`.
+
+## Database aanmaken
+
+De database wordt aangemaakt met **EF Core-migraties** (niet met `EnsureCreated`).
+
+- **Automatisch:** bij het starten roept `Program.cs` `db.Database.Migrate()` aan. De database
+  `PortfolioDb`, de tabellen en de seed data (projecten en blogposts) worden dan aangemaakt of bijgewerkt.
+- **Handmatig** (optioneel):
+
+  ```bash
+  dotnet tool install --global dotnet-ef --version 10.0.14
+  cd PortfolioApi
+  dotnet ef database update
+  ```
+
+Omdat de gegevens in SQL Server staan, blijven ze bestaan na een herstart van de applicatie.
+
+## Applicatie starten
 
 ```bash
-# Terminal 1 – API
 cd PortfolioApi
-dotnet run --launch-profile http      # http://localhost:5080/swagger
-
-# Terminal 2 – frontend
-cd client
-npm install                           # alleen de eerste keer
-npm run dev                           # http://localhost:5173
+dotnet run --launch-profile http
 ```
+
+Open daarna **Swagger UI** op http://localhost:5080/swagger om alle endpoints te testen:
+`GET`, `GET {id}`, `POST`, `PUT {id}` en `DELETE {id}` voor zowel `/api/projects` als `/api/blogposts`.
