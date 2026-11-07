@@ -1,0 +1,79 @@
+# Testverzoeken voor de Portfolio API.
+# Uitvoeren in VS Code met de extensie "REST Client" (klik op "Send Request"),
+# of in Visual Studio / Rider. Pas @projectId en @blogPostId aan naar het id uit de POST-response.
+
+@baseUrl = http://localhost:5080
+@projectId = 4
+@blogPostId = 3
+
+### ---------- Projects ----------
+
+### Alle projecten
+GET {{baseUrl}}/api/projects
+
+### Eén project
+GET {{baseUrl}}/api/projects/{{projectId}}
+
+### Project aanmaken (geen id: de database kiest dat)
+POST {{baseUrl}}/api/projects
+Content-Type: application/json
+
+{
+  "title": "Bewijs Project",
+  "description": "Aangemaakt via de .http-file",
+  "category": "Backend",
+  "gitHubUrl": "https://github.com/example/bewijs",
+  "date": "2026-11-07"
+}
+
+### Project wijzigen
+PUT {{baseUrl}}/api/projects/{{projectId}}
+Content-Type: application/json
+
+{
+  "title": "Bewijs Project (gewijzigd)",
+  "description": "Gewijzigd via PUT",
+  "category": "Backend",
+  "gitHubUrl": "https://github.com/example/bewijs",
+  "date": "2026-11-08"
+}
+
+### Project verwijderen
+DELETE {{baseUrl}}/api/projects/{{projectId}}
+
+### Onbekend id -> 404
+GET {{baseUrl}}/api/projects/99999
+
+### ---------- Blog posts ----------
+
+### Alle blogposts
+GET {{baseUrl}}/api/blogposts
+
+### Eén blogpost
+GET {{baseUrl}}/api/blogposts/{{blogPostId}}
+
+### Blogpost aanmaken
+POST {{baseUrl}}/api/blogposts
+Content-Type: application/json
+
+{
+  "title": "Bewijs Blogpost",
+  "content": "Aangemaakt via de .http-file",
+  "publishedDate": "2026-11-07"
+}
+
+### Blogpost wijzigen
+PUT {{baseUrl}}/api/blogposts/{{blogPostId}}
+Content-Type: application/json
+
+{
+  "title": "Bewijs Blogpost (gewijzigd)",
+  "content": "Gewijzigd via PUT",
+  "publishedDate": "2026-11-08"
+}
+
+### Blogpost verwijderen
+DELETE {{baseUrl}}/api/blogposts/{{blogPostId}}
+
+### Onbekend id -> 404
+GET {{baseUrl}}/api/blogposts/99999
