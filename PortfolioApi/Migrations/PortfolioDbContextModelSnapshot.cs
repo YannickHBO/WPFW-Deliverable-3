@@ -137,6 +137,55 @@ namespace PortfolioApi.Migrations
                             Content = "Portfolio API (.NET 10, EF Core, SQL Server) en React-frontend die projecten en blogposts uit de API laadt",
                             PublishedDate = new DateTime(2026, 11, 7, 14, 11, 50, 0, DateTimeKind.Unspecified),
                             Title = "Blog Post 13"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Content = "Clean up README by removing outdated sections",
+                            PublishedDate = new DateTime(2026, 11, 7, 14, 20, 19, 0, DateTimeKind.Unspecified),
+                            Title = "Blog Post 14"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Content = "Add blog galleries, project tags and site content",
+                            PublishedDate = new DateTime(2026, 11, 7, 15, 53, 29, 0, DateTimeKind.Unspecified),
+                            Title = "Blog Post 15"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Content = "Revert \"Add blog galleries, project tags and site content\"",
+                            PublishedDate = new DateTime(2026, 11, 7, 15, 55, 35, 0, DateTimeKind.Unspecified),
+                            Title = "Blog Post 16"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Content = "Add blog galleries, project tags and site content",
+                            PublishedDate = new DateTime(2026, 11, 7, 16, 8, 50, 0, DateTimeKind.Unspecified),
+                            Title = "Blog Post 17"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Content = "Enhance README with setup and architecture details",
+                            PublishedDate = new DateTime(2026, 11, 7, 16, 27, 9, 0, DateTimeKind.Unspecified),
+                            Title = "Blog Post 18"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Content = "Updated readme to add frontend run commands",
+                            PublishedDate = new DateTime(2026, 11, 8, 14, 21, 59, 0, DateTimeKind.Unspecified),
+                            Title = "Blog Post 19"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Content = "Readme opgeschoond, technische documentatie naar architectuur document verplaatst.",
+                            PublishedDate = new DateTime(2026, 11, 8, 19, 53, 43, 0, DateTimeKind.Unspecified),
+                            Title = "Blog Post 20"
                         });
                 });
 
