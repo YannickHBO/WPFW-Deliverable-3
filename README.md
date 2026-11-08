@@ -61,3 +61,10 @@ dotnet run --launch-profile http
 
 Open daarna **Swagger UI** op http://localhost:5080/swagger om alle endpoints te testen:
 `GET`, `GET {id}`, `POST`, `PUT {id}` en `DELETE {id}` voor zowel `/api/projects` als `/api/blogposts`.
+## Frontend starten
+
+```bash
+cd client
+npm install
+npm run dev
+```
