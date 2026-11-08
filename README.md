@@ -6,10 +6,8 @@
 
 ## API-stijl en codestructuur
 
-Ik heb gekozen voor **controllers** (`[ApiController]`), gelaagd opgebouwd: Controllers → Services → Data.
-De controllers regelen alleen HTTP (routes en statuscodes), de services bevatten de logica en de
-DTO-mapping, en alleen de data-laag praat met EF Core. Er gaan nergens EF-entiteiten de API in of uit;
-de API wisselt alleen DTO's uit.
+De API gebruikt **controllers** (`[ApiController]`) en is gelaagd opgebouwd: Controllers → Services → Data.
+De motivatie achter deze keuzes staat in [ARCHITECTUUR.md](ARCHITECTUUR.md).
 
 ```
 PortfolioApi/

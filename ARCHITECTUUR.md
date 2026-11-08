@@ -71,8 +71,8 @@ levensduur, omdat een `DbContext` niet thread-safe is en per unit-of-work hoort 
 ## 5. Opslag: EF Core + SQL Server met migraties
 
 SQL Server zorgt ervoor dat gegevens een herstart overleven, wat met de InMemory-provider
-niet zou lukken. Het schema wordt aangemaakt met de **migratie** `InitialCreate`, die bij het
-opstarten met `Database.Migrate()` wordt toegepast. Anders dan bij `EnsureCreated` kan het
+niet zou lukken. Het schema en de seed data worden opgebouwd met **migraties**, te beginnen bij
+`InitialCreate`, die bij het opstarten met `Database.Migrate()` worden toegepast. Anders dan bij `EnsureCreated` kan het
 schema later stap voor stap meegroeien met de site (bijvoorbeeld tags of een
 `ImageUrl` op een project) zonder dat bestaande projecten en blogposts verloren gaan.
 
